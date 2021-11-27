@@ -26,6 +26,12 @@ async function connectAndSearchOMDB() {
     console.log(`Saving favourite movie: ${searchResult.rows[userFavourite - 1].movie_name}`)
     const favouriteId = searchResult.rows[userFavourite - 1].movie_id
     console.log(favouriteId)
+    const favouriteTableQuery =
+        "INSERT INTO fave_movies_names (movie_id, movie_name) VALUES ($1, $2)";
+    const values = [`${searchResult.rows[userFavourite - 1].movie_id}`, `${searchResult.rows[userFavourite - 1].movie_name}`];
+    const favouriteTable = await client.query(favouriteTableQuery, values);
+    const favouriteTableReturn = await client.query("SELECT * FROM fave_movies_names LIMIT 8");
+    console.table(favouriteTableReturn.rows)
     await client.end();
 }
 
