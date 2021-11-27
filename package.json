@@ -2,9 +2,9 @@
   "name": "search-movies-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "searchMoviesCLI2.ts",
+  "main": "searchMoviesCLI3.ts",
   "scripts": {
-    "start": "ts-node searchMoviesCLI2.ts",
+    "start": "ts-node searchMoviesCLI3.ts",
     "postinstall": "tsc"
   },
   "author": "",
