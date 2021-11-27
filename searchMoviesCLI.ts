@@ -18,7 +18,7 @@ async function connectAndSearchOMDB() {
     const client = new Client({ database: 'omdb' });
     await client.connect();
     const searchResult = await client.query
-        ("SELECT DISTINCT movie_id, movie_name from casts_view where lower(movie_name) like $1 LIMIT 10", [`%${userReturn.toLowerCase()}%`]);
+        ("SELECT DISTINCT movie_id, movie_name, date from casts_view where kind = 'movie' AND lower(movie_name) like $1 ORDER BY date desc LIMIT 10", [`%${userReturn.toLowerCase()}%`]);
     console.table(searchResult.rows);
     await client.end();
 }
