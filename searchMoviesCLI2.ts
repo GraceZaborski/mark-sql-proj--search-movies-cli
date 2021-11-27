@@ -16,11 +16,16 @@ async function connectAndSearchOMDB() {
     await client.connect();
     let userReturn = readlineSync.question("Search term: ");
     const searchResult = await client.query
-        ("SELECT DISTINCT movie_id, movie_name, date from casts_view where kind = 'movie' AND lower(movie_name) like $1 ORDER BY date desc LIMIT 10", [`%${userReturn.toLowerCase()}%`]);
+        ("SELECT DISTINCT movie_id, movie_name, date from casts_view where kind = 'movie' AND lower(movie_name) like $1 ORDER BY date desc LIMIT 8", [`%${userReturn.toLowerCase()}%`]);
     console.table(searchResult.rows);
-    for (let index = 0; index < 10; index++) {
-        console.log(`[${index}] ${searchResult.rows[index].movie_name}`)
+    for (let index = 0; index < 8; index++) {
+        console.log(`[${(index + 1)}] ${searchResult.rows[index].movie_name}`)
     }
+    console.log(`[0] CANCEL`)
+    let userFavourite = readlineSync.question("Choose a movie row number to favourite [1...8 / 0]: ");
+    console.log(`Saving favourite movie: ${searchResult.rows[userFavourite - 1].movie_name}`)
+    const favouriteId = searchResult.rows[userFavourite - 1].movie_id
+    console.log(favouriteId)
     await client.end();
 }
 
